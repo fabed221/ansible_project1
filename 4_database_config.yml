@@ -29,7 +29,7 @@
         if [ -f "{{ sql_file }}" ]; then
           mysql -u root {{ db_name }} < "{{ sql_file }}"
         else
-          echo "⚠️ myapp.sql not found! Skipping import."
+          echo "myapp.sql not found! Skipping import."
         fi
       become_user: root
       args:
