@@ -1,0 +1,27 @@
+---
+- name: Delete and recreate directories
+  hosts: linux
+  become: yes
+
+  tasks:
+    - name: Remove /etc/nginx/sites-enabled
+      file:
+        path: /etc/nginx/sites-enabled
+        state: absent
+
+    - name: Recreate /etc/nginx/sites-enabled
+      file:
+        path: /etc/nginx/sites-enabled
+        state: directory
+        mode: '0755'
+
+    - name: Remove /var/www/html
+      file:
+        path: /var/www/html
+        state: absent
+
+    - name: Recreate /var/www/html
+      file:
+        path: /var/www/html
+        state: directory
+        mode: '0755'

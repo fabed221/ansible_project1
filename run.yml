@@ -1,0 +1,8 @@
+---
+- import_playbook: test/1_install_packages.yml
+- import_playbook: test/3_delete_dir_contents.yml
+- import_playbook: test/2_git_clone.yml
+- import_playbook: test/4_database_config.yml
+- import_playbook: test/5_distributute.yml
+- import_playbook: test/6_set_folder_permission.yml
+- import_playbook: test/7_restart_service.yml

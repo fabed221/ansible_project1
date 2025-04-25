@@ -1,0 +1,29 @@
+---
+- name: Distribute application files to their final destinations
+  hosts: linux
+  become: yes
+  tasks:
+  
+    # Copy index.php to web root
+    - name: Copy index.php to web root
+      copy:
+        src: /var/www/html/myapp1/index.php
+        dest: /var/www/html/index.php
+        remote_src: yes
+        force: yes
+
+    # Copy register.php to web root
+    - name: Copy register.php to web root
+      copy:
+        src: /var/www/html/myapp1/register.php
+        dest: /var/www/html/register.php
+        remote_src: yes
+        force: yes
+
+    # Deploy nginx config
+    - name: Deploy nginx config
+      copy:
+        src: /var/www/html/myapp1/myapp.conf
+        dest: /etc/nginx/sites-enabled/myapp.conf
+        remote_src: yes
+        force: yes

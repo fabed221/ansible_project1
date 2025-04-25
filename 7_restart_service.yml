@@ -1,0 +1,14 @@
+---
+- name: Restart required services
+  hosts: linux
+  become: yes
+
+  tasks:
+    - name: Restart services with loop
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+        - nginx
+        - mysql
+        - php8.3-fpm

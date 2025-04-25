@@ -1,0 +1,22 @@
+---
+- name: Set folder permissions and create uploads directory
+  hosts: linux
+  become: yes
+  tasks:
+    - name: Set ownership and permissions for /var/www/html
+      file:
+        path: /var/www/html
+        state: directory
+        recurse: yes
+        owner: www-data
+        group: www-data
+        mode: '0755'
+
+    - name: Create uploads directory
+      file:
+        path: /var/www/html/uploads
+        state: directory
+        owner: www-data
+        group: www-data
+        mode: '0775'
+

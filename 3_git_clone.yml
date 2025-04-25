@@ -1,0 +1,16 @@
+---
+- name: Deploy Application and Configure Nginx
+  hosts: linux
+  become: yes
+  vars:
+    repo_url: https://github.com/fabed221/myapp1.git
+    clone_dir: /var/www/html/myapp1  # Make sure this matches actual path
+
+  tasks:
+    - name: Clone GitHub repository
+      ansible.builtin.git:
+        repo: "{{ repo_url }}"
+        dest: "{{ clone_dir }}"
+        force: yes
+        clone: yes
+        update: yes

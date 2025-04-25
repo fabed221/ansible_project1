@@ -1,0 +1,36 @@
+---
+- name: Setup MySQL database and import SQL
+  hosts: linux
+  become: yes  # Run all tasks as root (needed for MySQL access)
+  vars:
+    db_name: myapp
+    db_user: myuser
+    db_pass: mypassword
+    sql_file: /var/www/html/myapp1/myapp.sql
+
+  tasks:
+    - name: Create MySQL database
+      shell: "mysql -u root -e 'CREATE DATABASE IF NOT EXISTS {{ db_name }};'"
+      become_user: root
+      args:
+        executable: /bin/bash
+
+    - name: Create MySQL user and grant privileges
+      shell: |
+        mysql -u root -e "CREATE USER IF NOT EXISTS '{{ db_user }}'@'localhost' IDENTIFIED BY '{{ db_pass }}';"
+        mysql -u root -e "GRANT ALL PRIVILEGES ON {{ db_name }}.* TO '{{ db_user }}'@'localhost';"
+        mysql -u root -e "FLUSH PRIVILEGES;"
+      become_user: root
+      args:
+        executable: /bin/bash
+
+    - name: Import SQL file if it exists
+      shell: |
+        if [ -f "{{ sql_file }}" ]; then
+          mysql -u root {{ db_name }} < "{{ sql_file }}"
+        else
+          echo "⚠️ myapp.sql not found! Skipping import."
+        fi
+      become_user: root
+      args:
+        executable: /bin/bash

@@ -1,0 +1,32 @@
+---
+- name: Configure LEMP Stack
+  hosts: linux
+  become: yes
+  tasks:
+    - name: Update and upgrade packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install required packages
+      apt:
+        name:
+          - nginx
+          - mysql-server
+          - php8.3
+          - php8.3-fpm
+          - php8.3-mysql
+          - python3-pymysql
+          - git
+          - zip
+        state: present
+
+    - name: Enable and start services
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      loop:
+        - mysql
+        - nginx
+        - php8.3-fpm
